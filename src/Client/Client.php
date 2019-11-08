@@ -88,7 +88,7 @@ class Client
     public function defaultOptions()
     {
         return [
-            'host'  => 'https://api.weglot.com'
+            'host'  => 'https://api-staging.weglot.com'
         ];
     }
 
@@ -202,7 +202,6 @@ class Client
                 ['api_key' => $this->apiKey],
                 $body
             );
-
             $array = json_decode($rawBody, true);
         } catch (\Exception $e) {
             throw new ApiError($e->getMessage(), $body);

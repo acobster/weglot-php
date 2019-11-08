@@ -269,7 +269,12 @@ class DomCheckerProvider
                             $i = $i + $shift;
                         }
 
-                        $this->getParser()->getWords()->addOne(new WordEntry($node->$property, $wordType));
+                        $xpath = $this->getXPath($node, $property);
+                        if($xpath !== "" && isset($_SERVER['REQUEST_URI'])) {
+                            $xpath = $_SERVER['REQUEST_URI'] . ":" . $xpath;
+                        }
+
+                        $this->getParser()->getWords()->addOne(new WordEntry($node->$property, $wordType, $xpath));
 
                         $nodes[] = [
                             'node' => $node,
@@ -284,6 +289,28 @@ class DomCheckerProvider
 
         }
         return $nodes;
+    }
+
+    public function getXPath($node, $property) {
+        $xpath = "";
+        while(isset($node->parent) && $node->parent->tag != 'root') {
+            $n = 0;
+            $c = 0;
+
+            for ($i = 0; $i < count($node->parent->children) ; $i++) {
+                if($node->tag === $node->parent->children[$i]->tag) {
+                    $c++;
+                }
+                if($node === $node->parent->children[$i]) {
+                    $n = $c;
+                }
+            }
+            if($node->tag !== 'text') {
+                $xpath =  ($n>1 || $n !== $c) ? '/' .  $node->tag . "[" . $n . "]" . $xpath : '/' .  $node->tag . $xpath;
+            }
+            $node = $node->parent;
+        }
+        return $xpath . "/" . $property;
     }
 
     public function handleOldEngine($discoveringNodes, &$nodes, $class, $property, $wordType) {

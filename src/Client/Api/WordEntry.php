@@ -23,15 +23,22 @@ class WordEntry extends AbstractCollectionEntry
     protected $type = WordType::TEXT;
 
     /**
+     * @var string
+     */
+    protected $key = "";
+
+    /**
      * WordEntry constructor.
      * @param $word
      * @param int $type
+     * @param string $key
      * @throws InvalidWordTypeException
      */
-    public function __construct($word, $type = WordType::TEXT)
+    public function __construct($word, $type = WordType::TEXT, $key = "")
     {
         $this->setWord($word)
-            ->setType($type);
+            ->setType($type)
+            ->setKey($key);
     }
 
     /**
@@ -87,13 +94,42 @@ class WordEntry extends AbstractCollectionEntry
     }
 
     /**
+     * @param string $key
+     * @return $this
+     */
+    public function setKey($key)
+    {
+        $this->key = $key;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function jsonSerialize()
     {
-        return [
-            't' => $this->getType(),
-            'w' => $this->getWord()
-        ];
+        if($this->getKey() !=="") {
+            return [
+                't' => $this->getType(),
+                'w' => $this->getWord(),
+                'k' => $this->getKey()
+            ];
+        }
+        else {
+            return [
+                't' => $this->getType(),
+                'w' => $this->getWord()
+            ];
+        }
+
     }
 }
