@@ -83,7 +83,7 @@ class IgnoredNodes
         $this->setSource(
             str_replace(
                 $matches[0],
-                '&lt;' .$matches['tag'].str_replace('>', '&gt;', str_replace('<', '&lt;', $matches['more'])). '&gt;' . $matches['content']. '&lt;/' . $matches['tag'] . '&gt;',
+                '&lt;' .$matches['tag'].str_replace('>', '&gt;', str_replace('<', '&lt;', $matches['more'])). '&gt;' . $matches['content']. '&lt;/' . $matches['tagclosed'] . '&gt;',
                 $this->getSource()
             )
         );

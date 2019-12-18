@@ -88,7 +88,7 @@ class Client
     public function defaultOptions()
     {
         return [
-            'host'  => 'https://api-staging.weglot.com'
+            'host'  => 'https://api.weglot.com'
         ];
     }
 
