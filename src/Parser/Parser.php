@@ -478,7 +478,12 @@ class Parser
             $source = $tree['dom']->save();
             foreach ($tree['regexes'] as $regex) {
                 $translatedRegex = $this->formatters($regex['source'], $translateEntry, $regex, $index);
-                $source = str_replace($regex['source'] , $translatedRegex, $source);
+                if($regex['type'] === SourceType::SOURCE_TEXT) {
+                    $source = preg_replace( '#\b' . preg_quote( $regex['source'], '#' ) . '\b#'  , $translatedRegex, $source);
+                }
+                else {
+                    $source = str_replace($regex['source'] , $translatedRegex, $source);
+                }
             }
         }
         return $source;
