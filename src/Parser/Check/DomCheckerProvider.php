@@ -275,7 +275,7 @@ class DomCheckerProvider
                             if(strpos($xpath, 'header') !== false || strpos($xpath, 'footer') !== false || strpos($xpath, 'nav') !== false)
                                 $key = $xpath;
                             else
-                                $key = $_SERVER['REQUEST_URI'] . ":" . $xpath;
+                                $key = strtok($_SERVER['REQUEST_URI'], '?') . ":" . $xpath;
                         }
 
                         $this->getParser()->getWords()->addOne(new WordEntry($node->$property, $wordType, $key));
