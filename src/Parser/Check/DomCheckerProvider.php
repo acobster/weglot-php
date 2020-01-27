@@ -269,7 +269,7 @@ class DomCheckerProvider
                             $i = $i + $shift;
                         }
 
-                        $xpath = $this->getXPath($node, $property);
+                        $xpath = $this->getParser()->getLanguageFrom() . ":" . $this->getParser()->getLanguageTo() . ":" . $this->getXPath($node, $property);
                         if($xpath !== "" && isset($_SERVER['REQUEST_URI'])) {
 
                             if(strpos($xpath, 'header') !== false || strpos($xpath, 'footer') !== false || strpos($xpath, 'nav') !== false)
