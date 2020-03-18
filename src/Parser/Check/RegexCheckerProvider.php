@@ -103,7 +103,7 @@ class RegexCheckerProvider
         $this->addChecker(new RegexChecker("#<script type=('|\")application\/ld\+json('|\")([^\>]+?)?>((.|\n)*?)<\/script>#" , SourceType::SOURCE_JSON, 4 , array( "description" ,  "name" , "headline" , "articleSection" )));
 
         /* Add HTML template checker */
-        $this->addChecker(new RegexChecker( "#<script type=('|\")text/html('|\")([^\>]+?)?>((.|\n)*?)<\/script>#" , SourceType::SOURCE_HTML, 4));
+        $this->addChecker(new RegexChecker( "#<script type=('|\")text/html('|\")([^\>]+?)?>((.|\n)+?)<\/script>#" , SourceType::SOURCE_HTML, 4));
     }
 
     /**

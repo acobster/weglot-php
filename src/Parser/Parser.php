@@ -464,6 +464,9 @@ class Parser
      */
     public function formatters($source, TranslateEntry $translateEntry, $tree, &$index = 0)
     {
+        if (empty($tree['type'])) {
+            return $source;
+        }
         if($tree['type'] === SourceType::SOURCE_TEXT) {
             $source = str_replace($tree['text'] , $translateEntry->getOutputWords()[$index]->getWord(), $source);
             $index++;
@@ -477,8 +480,11 @@ class Parser
             $formatter->handle($tree['nodes'], $index);
             $source = $tree['dom']->save();
             foreach ($tree['regexes'] as $regex) {
+                if (empty($regex['source'])) {
+                    continue;
+                }
                 $translatedRegex = $this->formatters($regex['source'], $translateEntry, $regex, $index);
-                if($regex['type'] === SourceType::SOURCE_TEXT) {
+                if($regex['type'] === SourceType::SOURCE_TEXT && $regex['source'] == $regex['text']) {
                     $source = preg_replace( '#\b' . preg_quote( $regex['source'], '#' ) . '\b#'  , $translatedRegex, $source);
                 }
                 else {
