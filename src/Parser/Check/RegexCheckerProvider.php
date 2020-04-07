@@ -130,22 +130,28 @@ class RegexCheckerProvider
         $checkers = $this->getCheckers();
         $regexes = [];
         foreach ($checkers as $class) {
-            list($regex, $type, $varNumber, $extraKeys) = $class->toArray();
+            list($regex, $type, $varNumber, $extraKeys, $callback, $revert_callback) = $class->toArray();
             preg_match_all($regex, $domString, $matches);
             if(isset($matches[$varNumber])) {
                 $matches0 = $matches[0];
                 $matches1 = $matches[$varNumber];
                 foreach ($matches1 as $k => $match) {
+                    $new_match = $match;
+                    if($callback) {
+                        $new_match = call_user_func($callback, $match);
+                    }
 
                     if($type === SourceType::SOURCE_JSON) {
-                        $regex = $this->getParser()->parseJSON($match, $extraKeys);
+                        $regex = $this->getParser()->parseJSON($new_match, $extraKeys);
                     }
                     if($type === SourceType::SOURCE_TEXT) {
-                        $regex = $this->getParser()->parseText($match, $matches0[$k]);
+                        $regex = $this->getParser()->parseText($new_match, $matches0[$k]);
                     }
                     if($type === SourceType::SOURCE_HTML) {
-                        $regex = $this->getParser()->parseHTML($match);
+                        $regex = $this->getParser()->parseHTML($new_match);
                     }
+                    $regex['source_before_callback'] = $match;
+                    $regex['revert_callback'] = $revert_callback;
                     array_push($regexes, $regex);
                 }
             }

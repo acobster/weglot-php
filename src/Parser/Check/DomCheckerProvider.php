@@ -2,6 +2,7 @@
 
 namespace Weglot\Parser\Check;
 
+use Weglot\Client\Api\Enum\WordType;
 use WGSimpleHtmlDom\simple_html_dom;
 use WGSimpleHtmlDom\simple_html_dom_node;
 use Weglot\Client\Api\Exception\InvalidWordTypeException;
@@ -230,12 +231,12 @@ class DomCheckerProvider
         $checkers = $this->getCheckers();
 
         foreach ($checkers as $class) {
-            list($selector, $property, $wordType) = $class::toArray();
+            list($selector, $property, $defaultWordType) = $class::toArray();
 
             $discoveringNodes = $this->discoverCachingGet($selector, $dom);
 
             if($this->getTranslationEngine() <= 2) { // Old model
-               $this->handleOldEngine($discoveringNodes, $nodes , $class, $property, $wordType);
+               $this->handleOldEngine($discoveringNodes, $nodes , $class, $property, $defaultWordType);
             }
             if($this->getTranslationEngine() == 3)  { //New model
 
@@ -245,9 +246,14 @@ class DomCheckerProvider
 
                     if ($instance->handle()) {
 
+                        $wordType = $defaultWordType;
                         $attributes = []; // Will contain attributes of merged node so that we can put them back after the API call.
 
                         if($selector === 'text') {
+                            if($node->parent->tag === 'title'){
+                                $wordType = WordType::TITLE;
+                            }
+
 
                             $shift = 0;
 
@@ -348,7 +354,13 @@ class DomCheckerProvider
         }
 
         if (is_array($node) || is_object($node)) {
-            foreach ($node->nodes as $n) {
+            foreach ($node->nodes as $k => $n) {
+
+                if($n->tag === 'comment') {
+                    unset($node->nodes[$k]);
+                    continue;
+                }
+
 
                 if ($this->containsBlock($n) || $n->hasAttribute(Parser::ATTRIBUTE_NO_TRANSLATE)) {
                     return false;
@@ -401,6 +413,11 @@ class DomCheckerProvider
     public function removeAttributesFromChild($node, &$attributes) {
 
         foreach ($node->children() as $child) {
+
+            if($child->tag === 'comment') {
+                continue;
+            }
+
             $k = count($attributes)+1;
             $attributes['wg-'.$k] = $child->getAllAttributes();
             $child->attr = [];
