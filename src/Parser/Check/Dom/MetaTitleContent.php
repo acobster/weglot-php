@@ -9,12 +9,12 @@ use Weglot\Util\Text as TextUtil;
  * Class MetaContent
  * @package Weglot\Parser\Check\Dom
  */
-class MetaContent extends AbstractDomChecker
+class MetaTitleContent extends AbstractDomChecker
 {
     /**
      * {@inheritdoc}
      */
-    const DOM = 'meta[name="description"],meta[property="og:description"],meta[property="og:site_name"],meta[name="twitter:description"]';
+    const DOM = 'meta[property="og:title"],meta[name="twitter:title"]';
 
     /**
      * {@inheritdoc}
@@ -24,7 +24,7 @@ class MetaContent extends AbstractDomChecker
     /**
      * {@inheritdoc}
      */
-    const WORD_TYPE = WordType::META_CONTENT;
+    const WORD_TYPE = WordType::TITLE;
 
     /**
 	 * {@inheritdoc}

@@ -484,11 +484,15 @@ class Parser
                     continue;
                 }
                 $translatedRegex = $this->formatters($regex['source'], $translateEntry, $regex, $index);
+                if($regex['revert_callback']) {
+                    $translatedRegex = call_user_func($regex['revert_callback'], $translatedRegex);
+                }
+
                 if($regex['type'] === SourceType::SOURCE_TEXT && $regex['source'] == $regex['text']) {
                     $source = preg_replace( '#\b' . preg_quote( $regex['source'], '#' ) . '\b#'  , $translatedRegex, $source);
                 }
                 else {
-                    $source = str_replace($regex['source'] , $translatedRegex, $source);
+                    $source = str_replace($regex['source_before_callback'] , $translatedRegex, $source);
                 }
             }
         }

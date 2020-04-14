@@ -120,7 +120,11 @@ class JsonChecker
                     array_push($paths, array( "key" => $k , "parsed" => $parsed));
 
                 }
-                elseif(in_array($key, array_unique(array_merge($this->default_keys , $this->getExtraKeys())) , true)) {
+                elseif(
+                    (!is_int($key) && in_array($key, array_unique(array_merge($this->default_keys , $this->getExtraKeys())) , true))
+                    || (is_int($key) && in_array(substr($currentKey, (strrpos($currentKey, JsonUtil::SEPARATOR) ?: -strlen(JsonUtil::SEPARATOR)) +strlen(JsonUtil::SEPARATOR)), array_unique(array_merge($this->default_keys , $this->getExtraKeys())) , true))
+
+                ) {
                     $parsed = $this->getParser()->parseText($value);
                     array_push($paths, array( "key" => $k , "parsed" => $parsed));
                 }

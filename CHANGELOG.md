@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.5] - 2020-04-14
+### Added
+- Add callback mechanism on regex checker
+- Add support for array in JSON
+- Add a type 9 for title tag
+
+### Fixed
+- Fix a rare bug when some empty nodes
+- Fix error when sentence is split because of comment
+
 ## [1.0.3] - 2019-12-16
 ### Changed
 - Fixed formatter on JSON source, only apply previous change to TEXT regex
