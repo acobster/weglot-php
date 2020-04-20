@@ -354,6 +354,7 @@ class DomCheckerProvider
         }
 
         if (is_array($node) || is_object($node)) {
+            $hasEncounterANotNulledChiled = false;
             foreach ($node->nodes as $k => $n) {
 
                 if($n->tag === 'comment') {
@@ -371,8 +372,11 @@ class DomCheckerProvider
                     $child = null;
                 }
 
+                if(!$hasEncounterANotNulledChiled && Text::fullTrim($n->innertext()) != '') {
+                    $hasEncounterANotNulledChiled = true;
+                }
 
-                if ($child == null) {
+                if ($child == null && $hasEncounterANotNulledChiled) {
                     $number = $this->numberOfTextNodeInParentAfterChild($n);
                     if ($number === false) {
                         return false;

@@ -143,14 +143,16 @@ class RegexCheckerProvider
 
                     if($type === SourceType::SOURCE_JSON) {
                         $regex = $this->getParser()->parseJSON($new_match, $extraKeys);
+                        $regex['source_before_callback'] = $match;
                     }
                     if($type === SourceType::SOURCE_TEXT) {
                         $regex = $this->getParser()->parseText($new_match, $matches0[$k]);
+                        $regex['source_before_callback'] = $matches0[$k];
                     }
                     if($type === SourceType::SOURCE_HTML) {
                         $regex = $this->getParser()->parseHTML($new_match);
+                        $regex['source_before_callback'] = $match;
                     }
-                    $regex['source_before_callback'] = $match;
                     $regex['revert_callback'] = $revert_callback;
                     array_push($regexes, $regex);
                 }
