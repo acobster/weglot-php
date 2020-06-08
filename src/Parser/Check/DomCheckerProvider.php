@@ -354,6 +354,7 @@ class DomCheckerProvider
                     }
                 }
             }
+            $node->nodes = array_values($node->nodes);
         }
         return $count;
     }
