@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.6] - 2020-07-07
+### Added
+- Add External links translation
+
+### Changed
+- Simplify Regex for default regex checker (HTML template and JSON LD)
+
+### Fixed
+- Fix a rare bug with comments inside nodes
+
 ## [1.0.5] - 2020-04-14
 ### Added
 - Add callback mechanism on regex checker
