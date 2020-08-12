@@ -34,7 +34,7 @@ class LanguagesTest extends \Codeception\Test\Unit
     // tests
     public function testCount()
     {
-        $this->assertEquals(108, \count($this->languages));
+        $this->assertEquals(109, \count($this->languages));
     }
 
     public function testGetCode()
