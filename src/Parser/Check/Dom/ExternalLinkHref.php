@@ -44,6 +44,5 @@ class ExternalLinkHref extends AbstractDomChecker
         else {
             return false;
         }
-
     }
 }

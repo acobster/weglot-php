@@ -24,13 +24,24 @@ class IframeSrc extends AbstractDomChecker
     /**
      * {@inheritdoc}
      */
-    const WORD_TYPE = WordType::IFRAME_SRC;
+    const WORD_TYPE = WordType::EXTERNAL_LINK;
 
     /**
      * {@inheritdoc}
      */
     protected function check()
     {
-        return TextUtil::contains(TextUtil::fullTrim($this->node->src), '.youtube.') || TextUtil::contains(TextUtil::fullTrim($this->node->src), '.vimeo.') || TextUtil::contains(TextUtil::fullTrim($this->node->src), '.dailymotion.');
+        $boolean = false;
+
+        $current_url = $this->node->src;
+        $parsed_url = parse_url( $current_url );
+        $server_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST']:null;
+
+        if( isset($server_host) && isset($parsed_url['host']) && str_replace('www.', '', $parsed_url['host']) !== str_replace('www.', '', $server_host) ) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.7] - 2020-08-12
+### Added
+- Add External links translation on iframe
+- Add brazilian portuguese
+
 ## [1.0.6] - 2020-07-07
 ### Added
 - Add External links translation
