@@ -718,6 +718,12 @@ class Languages
                 'english' => 'Filipino',
                 'local' => 'Pilipino',
                 'rtl' => false,
+            ],
+            'br' => [
+                'code'  => 'br',
+                'english' => 'Brazilian Portuguese',
+                'local' => 'Português Brasileiro',
+                'rtl' => false,
             ]
         ];
     }
